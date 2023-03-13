@@ -50,8 +50,8 @@ P.set_module_list([ModuleMain])
 #         ModuleMain = SupportSC.load_module_P(P, 'mod_main').ModuleMain
 
 #     P.set_module_list([ModuleMain])
-except Exception as e:
-    P.logger.error(f'Exception:{str(e)}')
-    P.logger.error(traceback.format_exc())
+# except Exception as e:
+#     P.logger.error(f'Exception:{str(e)}')
+#     P.logger.error(traceback.format_exc())
 
 
