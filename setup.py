@@ -37,11 +37,10 @@ setting = {
 
 DEFINE_DEV = False
 
+import os
 from plugin import *
-
-P = create_plugin_instance(setting)
-
 from .setup import P
+P = create_plugin_instance(setting)
 
 DEFINE_DEV = False
 if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
@@ -53,7 +52,7 @@ try:
         from .mod_main import ModuleMain
     else:
         from support import SupportSC
-        ModuleMain = SupportSC.load_module_P(P, '.mod_main').ModuleMain
+        ModuleMain = SupportSC.load_module_P(P, 'mod_main').ModuleMain
     
     P.set_module_list([ModuleMain])
 except Exception as e:
