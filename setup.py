@@ -40,7 +40,8 @@ DEFINE_DEV = False
 from plugin import *
 
 P = create_plugin_instance(setting)
-from .mod_main import ModuleMain
+from support import SupportSC
+ModuleMain = SupportSC.load_module_P(P, 'mod_main').ModuleMain
 P.set_module_list([ModuleMain])
 # try:
 #     if DEFINE_DEV and os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_main.py')):
