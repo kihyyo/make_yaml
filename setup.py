@@ -39,8 +39,10 @@ DEFINE_DEV = False
 
 import os
 from plugin import *
-from .setup import P
+
 P = create_plugin_instance(setting)
+
+from .setup import P
 
 DEFINE_DEV = False
 if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
