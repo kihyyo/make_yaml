@@ -53,7 +53,7 @@ try:
         from .mod_main import ModuleMain
     else:
         from support import SupportSC
-        ModuleMain = SupportSC.load_module_P(P, 'mod_main').ModuleMain
+        ModuleMain = SupportSC.load_module_P(P, '.mod_main').ModuleMain
     
     P.set_module_list([ModuleMain])
 except Exception as e:
