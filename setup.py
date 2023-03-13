@@ -35,12 +35,21 @@ setting = {
     'default_route': 'normal',
 }
 
+DEFINE_DEV = False
+
 from plugin import *
 
 P = create_plugin_instance(setting)
-from .setup import P
-from support import SupportSC
-ModuleMain = SupportSC.load_module_P(P, 'mod_main').ModuleMain
-P.set_module_list([mod_main.ModuleMain])
+try:
+    if DEFINE_DEV and os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_main.py')):
+        from .mod_main import ModuleMain
+    else:
+        from support import SupportSC
+        ModuleMain = SupportSC.load_module_P(P, 'mod_main').ModuleMain
+
+    P.set_module_list([ModuleMain])
+except Exception as e:
+    P.logger.error(f'Exception:{str(e)}')
+    P.logger.error(traceback.format_exc())
 
 
