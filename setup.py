@@ -39,7 +39,8 @@ from plugin import *
 
 P = create_plugin_instance(setting)
 from .setup import P
-from . import ModuleMain
+from support import SupportSC
+ModuleMain = SupportSC.load_module_P(P, 'mod_main').ModuleMain
 P.set_module_list([mod_main.ModuleMain])
 
 
