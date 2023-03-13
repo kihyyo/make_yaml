@@ -39,7 +39,7 @@ from plugin import *
 
 P = create_plugin_instance(setting)
 from .setup import P
-from . import ModuleMain
-P.set_module_list([ModuleMain])
+from . import mod_main
+P.set_module_list([mod_main.ModuleMain])
 
 
