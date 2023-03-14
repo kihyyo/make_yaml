@@ -37,12 +37,12 @@ class YAMLUTILS(object):
 
     @classmethod
     def make_yaml(self, show_data, target_path=None):
-        
-            target_path = P.ModelSetting.get('manual_target')
-            tmp = re.sub('[\\/:*?\"<>|]', '', show_data['title']).replace('  ', ' ').replace('[]', '').strip()
-            with open(os.path.join(target_path, tmp+'.yaml'), 'w', encoding="utf-8") as outfile:
+        target_path = P.ModelSetting.get('manual_target')
+        tmp = re.sub('[\\/:*?\"<>|]', '', show_data['title']).replace('  ', ' ').replace('[]', '').strip()
+        with open(os.path.join(target_path, tmp+'.yaml'), 'w', encoding="utf-8") as outfile:
+            if P.ModelSetting.get_bool('delete_title'):
                 del show_data['title']
-                yaml.dump(show_data, outfile, sort_keys=False, allow_unicode=True)
+            yaml.dump(show_data, outfile, sort_keys=False, allow_unicode=True)
         
     @classmethod            
     def code_sort(cls, user_order, url_list):
