@@ -59,7 +59,7 @@ EBSKIDS 를 제외하고 7개의 OTT 를 원하는 순서대로 넣는다.
 
 티빙 https://www.tving.com/contents/P001565742 에서 ***P001565742***
 
-쿠팡 https://www.coupangplay.com/titles/65c0c0a9-c2eb-4016-ab42-e26f0426fdb6 에서 ***65c0c0a9-c2eb-4016-ab42-e26f0426fdb6***
+쿠팡 https://www.coupangplay.com/titles/b2a54eec-da58-4dbd-a078-5a3fb624b78e 에서 ***b2a54eec-da58-4dbd-a078-5a3fb624b78e***
 
 넷플릭스 https://www.netflix.com/title/81519223 에서 ***81519223***
 
