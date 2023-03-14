@@ -3,11 +3,22 @@ from plugin import PluginModuleBase
 from tool import ToolUtil
 from .setup import P
 from support_site import SiteUtil
-from .get_code import OTTCODE
 from .yaml_utils import YAMLUTILS
 import re, os, traceback
 logger = P.logger
+DEFINE_DEV = False
+if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
+    DEFINE_DEV = True
+try:
+    if DEFINE_DEV:
+        from .get_code import OTTCODE
+    else:
+        from support import SupportSC
+        OTTCODE = SupportSC.load_module_P(P, 'get_code').OTTCODE
 
+except Exception as e:
+    P.logger.error(f'Exception:{str(e)}')
+    P.logger.error(traceback.format_exc())
 
 name = 'main'
 
