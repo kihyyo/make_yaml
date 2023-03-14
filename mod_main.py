@@ -90,9 +90,9 @@ class ModuleMain(PluginModuleBase):
                     YAMLUTILS.make_yaml(show_data)
                     return jsonify({"msg":f"{site_name_dict[site]} 코드 실행", "ret":"success"})
                 else:
-                    return jsonify({"msg":f"{site_name_dict[site]} 한글 메타데이터 아님", "ret":"fail"})
+                    return jsonify({"msg":f"{site_name_dict[site]} 한글 메타데이터 아님", "ret":"success"})
             else:
-                return jsonify({"msg":"검색 실패", "ret":"fail"})
+                return jsonify({"msg":"검색 실패", "ret":"success"})
         else:
-            return jsonify({"msg":"검색 실패", "ret":"fail"})
+            return jsonify({"msg":"검색 실패", "ret":"success"})
     
