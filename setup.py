@@ -36,22 +36,8 @@ setting = {
 }
 
 from plugin import *
-
-DEFINE_DEV = False
-if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
-    DEFINE_DEV = True
+from .mod_main import ModuleMain
 
 P = create_plugin_instance(setting)
-try:
-    if DEFINE_DEV:
-        from .mod_main import ModuleMain
-    else:
-        from support import SupportSC
-        ModuleMain = SupportSC.load_module_P(P, 'mod_main').ModuleMain
-    
-    P.set_module_list([ModuleMain])
-except Exception as e:
-    P.logger.error(f'Exception:{str(e)}')
-    P.logger.error(traceback.format_exc())
 
 
