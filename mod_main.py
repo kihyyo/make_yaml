@@ -88,7 +88,7 @@ class ModuleMain(PluginModuleBase):
                 return jsonify({'ret':'success', 'json': show_data})
             elif show_data !=[]:
                 if SiteUtil.is_include_hangul(show_data['seasons'][-1]['episodes'][-1]['title']) or SiteUtil.is_include_hangul(show_data['seasons'][-1]['episodes'][-1]['summary']) :
-                    YAMLUTILS.make_yaml(show_data)
+                    YAMLUTILS.make_yaml(show_data, P.ModelSetting.get('manual_target'))
                     return jsonify({"msg":f"{site_name_dict[site]} 코드 실행", "ret":"success"})
                 else:
                     return jsonify({"msg":f"{site_name_dict[site]} 한글 메타데이터 아님", "ret":"success"})
