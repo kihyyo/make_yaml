@@ -36,8 +36,10 @@ setting = {
 }
 
 from plugin import *
-from .mod_main import ModuleMain
 
 P = create_plugin_instance(setting)
+from .setup import P
+from .mod_main import ModuleMain
+P.set_module_list([ModuleMain])
 
 
