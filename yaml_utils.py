@@ -2,33 +2,15 @@ import re, difflib, requests, os, traceback, yaml
 import tmdbsimple as tmdb
 from .setup import P
 from urllib.parse import unquote, quote
-DEFINE_DEV = False
-if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
-    DEFINE_DEV = True
-try:
-    if DEFINE_DEV:
-        from .site_tving import TVING
-        from .site_netflix import NF
-        from .site_wavve import WAVVE
-        from .site_disney import DSNP
-        from .site_coupang import COUPANG
-        from .site_appletv import ATVP
-        from .site_prime import AMZN
-        from .site_ebs import EBS
-    else:
-        from support import SupportSC
-        TVING = SupportSC.load_module_P(P, 'site_tving').TVING
-        NF = SupportSC.load_module_P(P, 'site_netflix').NF
-        WAVVE = SupportSC.load_module_P(P, 'site_wavve').WAVVE
-        DSNP = SupportSC.load_module_P(P, 'site_disney').DSNP
-        COUPANG = SupportSC.load_module_P(P, 'site_coupang').COUPANG
-        ATVP = SupportSC.load_module_P(P, 'site_appletv').ATVP
-        AMZN = SupportSC.load_module_P(P, 'site_prime').AMZN
-        EBS = SupportSC.load_module_P(P, 'site_ebs').EBS
-
-except Exception as e:
-    P.logger.error(f'Exception:{str(e)}')
-    P.logger.error(traceback.format_exc())
+from support import SupportSC
+TVING = SupportSC.load_module_P(P, 'site_tving').TVING
+NF = SupportSC.load_module_P(P, 'site_netflix').NF
+WAVVE = SupportSC.load_module_P(P, 'site_wavve').WAVVE
+DSNP = SupportSC.load_module_P(P, 'site_disney').DSNP
+COUPANG = SupportSC.load_module_P(P, 'site_coupang').COUPANG
+ATVP = SupportSC.load_module_P(P, 'site_appletv').ATVP
+AMZN = SupportSC.load_module_P(P, 'site_prime').AMZN
+EBS = SupportSC.load_module_P(P, 'site_ebs').EBS
 logger = P.logger
 
 class YAMLUTILS(object):
