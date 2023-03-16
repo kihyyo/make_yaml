@@ -4,7 +4,7 @@ from tool import ToolUtil
 from .setup import P
 from support_site import SiteUtil
 from .yaml_utils import YAMLUTILS
-import re, os, traceback
+import re, os, traceback, copy
 logger = P.logger
 DEFINE_DEV = False
 if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
@@ -88,8 +88,25 @@ class ModuleMain(PluginModuleBase):
                 return jsonify({'ret':'success', 'json': show_data})
             elif show_data !=[]:
                 if SiteUtil.is_include_hangul(show_data['seasons'][-1]['episodes'][-1]['title']) or SiteUtil.is_include_hangul(show_data['seasons'][-1]['episodes'][-1]['summary']) :
-                    YAMLUTILS.make_yaml(show_data, P.ModelSetting.get('manual_target'))
-                    return jsonify({"msg":f"{site_name_dict[site]} 코드 실행", "ret":"success"})
+                    if P.ModelSetting.get_int('split_season') == 1:   
+                        YAMLUTILS.make_yaml(show_data)
+                        return jsonify({"msg":f"{site_name_dict[site]} 코드 실행", "ret":"success"})
+                    else:
+                        season_data = []
+                        split_season = P.ModelSetting.get_int('split_season')
+                        for k in range(len(show_data['seasons'])):
+                            i = int(show_data['seasons'][k]['index'])
+                            for j in range(split_season):
+                                episode_data = copy.deepcopy(show_data['seasons'][k]['episodes'])
+                                season_no = int(int(j)*100 + i )                                  
+                                season = {
+                                    'index' : season_no,
+                                    'episodes' : episode_data
+                                }
+                                season_data.append(season)
+                        show_data['seasons'] = season_data
+                        YAMLUTILS.make_yaml(show_data)
+                        return jsonify({"msg":f"{site_name_dict[site]} 코드 실행", "ret":"success"})
                 else:
                     return jsonify({"msg":f"{site_name_dict[site]} 한글 메타데이터 아님", "ret":"success"})
             else:
