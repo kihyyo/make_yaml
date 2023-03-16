@@ -29,6 +29,7 @@ class ModuleMain(PluginModuleBase):
         f'ftv_first_order' : 'WAVVE, TVING, COUPANG, NF, DSNP, AMZN, ATVP',
         f'match_score' : '95',
         f'extra_season' : 'True',
+        f'split_season' : '1',
         f'delete_title' : 'True',
         f'manual_target' : '',
     }
