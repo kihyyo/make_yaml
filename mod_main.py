@@ -53,13 +53,13 @@ class ModuleMain(PluginModuleBase):
         if command == 'search_keyword':
             keyword = arg1.split('|')
             if len(keyword) == 1:
-                ottcode_list = OTTCODE(keyword[0].strip())
-                ottcode_list = ottcode_list.get_ott_code()
+                ottcode = OTTCODE(keyword[0].strip())
+                ottcode_list = ottcode.get_ott_code()
                 user_order = P.ModelSetting.get_list('ftv_first_order', ',')
                 self.code = YAMLUTILS.code_sort(user_order, ottcode_list)
             elif len(keyword) == 2:
-                ottcode_list = OTTCODE(keyword[0].strip(), keyword[1].strip())
-                ottcode_list = ottcode_list.get_ott_code()
+                ottcode = OTTCODE(keyword[0].strip(), keyword[1].strip())
+                ottcode_list = ottcode.get_ott_code()
                 user_order = P.ModelSetting.get_list('ftv_first_order', ',')
                 self.code = YAMLUTILS.code_sort(user_order, ottcode_list)
             else:
