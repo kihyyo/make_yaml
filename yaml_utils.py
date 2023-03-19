@@ -77,3 +77,49 @@ class YAMLUTILS(object):
         site_dict = {'KW' : WAVVE, 'KV' : TVING, 'KC' : COUPANG, 'FN' : NF, 'FD' : DSNP, 'FA' : ATVP, 'FP' : AMZN, 'KE' : EBS}
         show_data = site_dict[site].make_data(code)
         return show_data
+    
+    @classmethod
+    def tmdb_data(cls, tmdb_code, show_data):
+        from metadata.mod_ftv import ModuleFtv
+        tmdbftv = ModuleFtv('metadata')
+        data = tmdbftv.info(tmdb_code)
+        data = tmdbftv.process_trans('show', data)
+        show_data['primary'] = True
+        show_data['title'] = data['title']
+        show_data['title_sort'] = data['title']
+        show_data['studio'] = data['studio']
+        show_data['original_title'] = data['originaltitle']
+        show_data['country'] = data['country']
+        show_data['genres'] = data['genre']
+        show_data['content_rating'] = data['mpaa']
+        show_data['originally_available_at'] = data['premiered']
+        for rating in data['ratings']:
+            if rating['name'] == 'tmdb':
+                show_data['rating'] = rating['value']
+                break
+        show_data['art'] = data['art']
+        actor_list = []
+        for actor in data['actor']:
+            actor_data = {
+                'name' : actor['name'],
+                'role' : actor['role'],
+                'photo' : actor['image']
+            }
+            actor_list.append(actor_data)
+        show_data['roles'] = actor_list
+        show_data['extras'] = data['extra_info']
+        for season in show_data['seasons']:
+            season_number = season['index']
+            season_info = tmdbftv.info(tmdb_code+'_'+str(season_number))
+            season['posters'] = season_info['poster']
+            season['summary'] = season_info['plot']
+            season['art'] = season_info['art']
+            for episode in season['episodes']:
+                episode['originally_available_at'] = season_info['episodes'][episode['index']]['premiered']
+                try:        
+                    episode['thumbs'] = season_info['episodes'][episode['index']]['art'][0]   
+                except:
+                    episode['thumbs'] = ''
+                # episode['writers'] = season_info['episodes'][episode['index']]['writer']
+                # episode['directors'] = season_info['episodes'][episode['index']]['director']
+        return show_data
