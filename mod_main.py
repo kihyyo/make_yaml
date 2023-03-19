@@ -27,6 +27,7 @@ class ModuleMain(PluginModuleBase):
     db_default = {
         f'{name}_db_version' : '1',
         f'ftv_first_order' : 'WAVVE, TVING, COUPANG, NF, DSNP, AMZN, ATVP',
+        f'is_primary' : 'false',
         f'match_score' : '95',
         f'extra_season' : 'True',
         f'split_season' : '1',
