@@ -89,6 +89,10 @@ class ModuleMain(PluginModuleBase):
                 return jsonify({'ret':'success', 'json': show_data})
             elif show_data !=[]:
                 if SiteUtil.is_include_hangul(show_data['seasons'][-1]['episodes'][-1]['title']) or SiteUtil.is_include_hangul(show_data['seasons'][-1]['episodes'][-1]['summary']) :
+                    if P.ModelSetting.get_bool('is_primary'):
+                        self.tmdb_code = 'FT'+str(ottcode.tmdb_search()) 
+                        show_data = YAMLUTILS.tmdb_data(self.tmdb_code, show_data)
+                        
                     if P.ModelSetting.get_int('split_season') == 1:   
                         YAMLUTILS.make_yaml(show_data)
                         return jsonify({"msg":f"{site_name_dict[site]} 코드 실행", "ret":"success"})
