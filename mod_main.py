@@ -94,7 +94,6 @@ class ModuleMain(PluginModuleBase):
                     if P.ModelSetting.get_bool('is_primary'):
                         self.tmdb_code = 'FT'+str(ottcode.tmdb_search()) 
                         show_data = YAMLUTILS.tmdb_data(self.tmdb_code, show_data)
-                        
                     if P.ModelSetting.get_int('split_season') == 1:   
                         YAMLUTILS.make_yaml(show_data)
                         return jsonify({"msg":f"{site_name_dict[site]} 코드 실행", "ret":"success"})
@@ -115,9 +114,9 @@ class ModuleMain(PluginModuleBase):
                         YAMLUTILS.make_yaml(show_data)
                         return jsonify({"msg":f"{site_name_dict[site]} 코드 실행", "ret":"success"})
                 else:
-                    return jsonify({"msg":f"{site_name_dict[site]} 한글 메타데이터 아님", "ret":"success"})
+                    return jsonify({"msg":f"{site_name_dict[site]} 한글 메타데이터 아님", "ret":"fail"})
             else:
-                return jsonify({"msg":"검색 실패", "ret":"success"})
+                return jsonify({"msg":"검색 실패", "ret":"fail"})
         else:
-            return jsonify({"msg":"검색 실패", "ret":"success"})
+            return jsonify({"msg":"검색 실패", "ret":"fail"})
     
