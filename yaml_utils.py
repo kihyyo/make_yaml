@@ -3,7 +3,7 @@ from urllib.parse import unquote, quote
 import tmdbsimple as tmdb
 from .setup import P
 logger = P.logger
-DEFIㅆNE_DEV = False
+DEFINE_DEV = False
 if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
     DEFINE_DEV = True
 try:
