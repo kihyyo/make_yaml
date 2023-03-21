@@ -1,49 +1,29 @@
 import re, difflib, requests, os, traceback, yaml
-from flask import jsonify
-from support_site import SiteUtil
+from urllib.parse import unquote, quote
+from .site_wavve import WAVVE
+from .site_tving import TVING
+from .site_netflix import NF
+from .site_disney import DSNP
+from .site_coupang import COUPANG
+from .site_appletv import ATVP
+from .site_prime import AMZN
+from .site_ebs import EBS
 import tmdbsimple as tmdb
 from .setup import P
-from urllib.parse import unquote, quote
-
-DEFINE_DEV = False
-if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
-    DEFINE_DEV = True
-try:
-    if DEFINE_DEV:
-        from .site_tving import TVING
-        from .site_netflix import NF
-        from .site_wavve import WAVVE
-        from .site_disney import DSNP
-        from .site_coupang import COUPANG
-        from .site_appletv import ATVP
-        from .site_prime import AMZN
-        from .site_ebs import EBS
-    else:
-        from support import SupportSC
-        TVING = SupportSC.load_module_P(P, 'site_tving').TVING
-        NF = SupportSC.load_module_P(P, 'site_netflix').NF
-        WAVVE = SupportSC.load_module_P(P, 'site_wavve').WAVVE
-        DSNP = SupportSC.load_module_P(P, 'site_disney').DSNP
-        COUPANG = SupportSC.load_module_P(P, 'site_coupang').COUPANG
-        ATVP = SupportSC.load_module_P(P, 'site_appletv').ATVP
-        AMZN = SupportSC.load_module_P(P, 'site_prime').AMZN
-        EBS = SupportSC.load_module_P(P, 'site_ebs').EBS
-except Exception as e:
-    P.logger.error(f'Exception:{str(e)}')
-    P.logger.error(traceback.format_exc())
+from .get_code import OTTCODE
 logger = P.logger
 
 class YAMLUTILS(object):
 
     @classmethod
-    def make_yaml(self, show_data, target_path=None):
-        target_path = P.ModelSetting.get('manual_target')
-        tmp = re.sub('[\\/:*?\"<>|]', '', show_data['title']).replace('  ', ' ').replace('[]', '').strip()
-        with open(os.path.join(target_path, tmp+'.yaml'), 'w', encoding="utf-8") as outfile:
-            if P.ModelSetting.get_bool('delete_title'):
-                del show_data['title']
-            yaml.dump(show_data, outfile, sort_keys=False, allow_unicode=True)
-        
+    def make_yaml(cls, show_data, target_path=None):
+            target_path = P.ModelSetting.get('manual_target')
+            tmp = re.sub('[\\/:*?\"<>|]', '', show_data['title']).replace('  ', ' ').replace('[]', '').strip()
+            with open(os.path.join(target_path, tmp+'.yaml'), 'w', encoding="utf-8") as outfile:
+                if P.ModelSetting.get_bool('delete_title'):
+                    del show_data['title']
+                yaml.dump(show_data, outfile, sort_keys=False, allow_unicode=True)
+                
     @classmethod            
     def code_sort(cls, user_order, url_list):
         if type(user_order) != list:
@@ -77,49 +57,44 @@ class YAMLUTILS(object):
         site_dict = {'KW' : WAVVE, 'KV' : TVING, 'KC' : COUPANG, 'FN' : NF, 'FD' : DSNP, 'FA' : ATVP, 'FP' : AMZN, 'KE' : EBS}
         show_data = site_dict[site].make_data(code)
         return show_data
-    
+
     @classmethod
-    def tmdb_data(cls, tmdb_code, show_data):
-        from metadata.mod_ftv import ModuleFtv
-        tmdbftv = ModuleFtv('metadata')
-        data = tmdbftv.info(tmdb_code)
-        data = tmdbftv.process_trans('show', data)
-        show_data['primary'] = True
-        show_data['title'] = data['title']
-        show_data['title_sort'] = data['title']
-        show_data['studio'] = data['studio']
-        show_data['original_title'] = data['originaltitle']
-        show_data['country'] = data['country']
-        show_data['genres'] = data['genre']
-        show_data['content_rating'] = data['mpaa']
-        show_data['originally_available_at'] = data['premiered']
-        for rating in data['ratings']:
-            if rating['name'] == 'tmdb':
-                show_data['rating'] = rating['value']
-                break
-        show_data['art'] = data['art']
-        actor_list = []
-        for actor in data['actor']:
-            actor_data = {
-                'name' : actor['name'],
-                'role' : actor['role'],
-                'photo' : actor['image']
-            }
-            actor_list.append(actor_data)
-        show_data['roles'] = actor_list
-        show_data['extras'] = data['extra_info']
-        for season in show_data['seasons']:
-            season_number = season['index']
-            season_info = tmdbftv.info(tmdb_code+'_'+str(season_number))
-            season['posters'] = season_info['poster']
-            season['summary'] = season_info['plot']
-            season['art'] = season_info['art']
-            for episode in season['episodes']:
-                episode['originally_available_at'] = season_info['episodes'][episode['index']]['premiered']
-                try:        
-                    episode['thumbs'] = season_info['episodes'][episode['index']]['art'][0]   
-                except:
-                    episode['thumbs'] = ''
-                # episode['writers'] = season_info['episodes'][episode['index']]['writer']
-                # episode['directors'] = season_info['episodes'][episode['index']]['director']
-        return show_data
+    def auto_target(cls, path):
+        target_list = os.listdir(path)
+        for folder in target_list:
+            file = cls.get_file(os.path.join(path, folder))
+            if file != None and cls.get_release(file) != None:
+                release = str(cls.get_release(file))
+                match = re.compile(r'^(.+) \((\d{4})\)$')
+                if match:
+                    title, year = match.match(folder).groups()
+                    ottcode = OTTCODE(title.strip(), year.strip())
+                    try:
+                        cls.make_yaml(cls.get_data(cls.code_sort(release, ottcode.get_ott_code())), P.ModelSetting.get('manual_target'))
+                    except:
+                        logger.debug('%s 오류', folder)
+                        pass
+
+
+    @classmethod
+    def get_file(cls, folder_path):
+        if os.path.isdir(folder_path) and not os.path.isfile(os.path.join(folder_path, 'show.yaml')):
+            for (path, dir, files) in os.walk(folder_path.strip()): 
+                for file in files:
+                    if os.path.splitext(file)[1] in ['.mkv', '.mp4', '.avi', '.flv']:
+                        return file
+                    else:
+                        continue
+        else:
+            return None
+
+    @classmethod
+    def get_release(cls, file):
+        if '.NF.' in file:
+            return 'NF'
+        elif '.DSNP.' in file:
+            return 'DSNP'
+        elif '.ATVP.' in file:
+            return 'ATVP'
+        else:
+            return None
