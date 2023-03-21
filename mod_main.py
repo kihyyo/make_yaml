@@ -55,7 +55,6 @@ class ModuleMain(PluginModuleBase):
             if len(keyword) == 1:
                 ottcode = OTTCODE(keyword[0].strip())
                 ottcode_list = ottcode.get_ott_code()
-                logger.debug(ottcode_list)
                 user_order = P.ModelSetting.get_list('ftv_first_order', ',')
                 self.code = YAMLUTILS.code_sort(user_order, ottcode_list)
             elif len(keyword) == 2:
