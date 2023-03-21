@@ -28,7 +28,11 @@ try:
         OTTCODE = SupportSC.load_module_P(P, 'site_appletv').ATVP
         OTTCODE = SupportSC.load_module_P(P, 'site_prime').AMZN
         OTTCODE = SupportSC.load_module_P(P, 'site_ebs').EBS
-                
+        
+except Exception as e:
+    P.logger.error(f'Exception:{str(e)}')
+    P.logger.error(traceback.format_exc()) 
+    
 class YAMLUTILS(object):
 
     @classmethod
