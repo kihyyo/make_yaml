@@ -1,18 +1,34 @@
 import re, difflib, requests, os, traceback, yaml
 from urllib.parse import unquote, quote
-from .site_wavve import WAVVE
-from .site_tving import TVING
-from .site_netflix import NF
-from .site_disney import DSNP
-from .site_coupang import COUPANG
-from .site_appletv import ATVP
-from .site_prime import AMZN
-from .site_ebs import EBS
 import tmdbsimple as tmdb
 from .setup import P
-from .get_code import OTTCODE
 logger = P.logger
-
+DEFINE_DEV = False
+if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
+    DEFINE_DEV = True
+try:
+    if DEFINE_DEV:
+        from .get_code import OTTCODE
+        from .site_wavve import WAVVE
+        from .site_tving import TVING
+        from .site_netflix import NF
+        from .site_disney import DSNP
+        from .site_coupang import COUPANG
+        from .site_appletv import ATVP
+        from .site_prime import AMZN
+        from .site_ebs import EBS
+    else:
+        from support import SupportSC
+        OTTCODE = SupportSC.load_module_P(P, 'get_code').OTTCODE
+        OTTCODE = SupportSC.load_module_P(P, 'site_wavve').WAVVE
+        OTTCODE = SupportSC.load_module_P(P, 'site_tving').TVING
+        OTTCODE = SupportSC.load_module_P(P, 'site_netflix').NF
+        OTTCODE = SupportSC.load_module_P(P, 'site_disney').DSNP
+        OTTCODE = SupportSC.load_module_P(P, 'site_coupang').COUPANG
+        OTTCODE = SupportSC.load_module_P(P, 'site_appletv').ATVP
+        OTTCODE = SupportSC.load_module_P(P, 'site_prime').AMZN
+        OTTCODE = SupportSC.load_module_P(P, 'site_ebs').EBS
+                
 class YAMLUTILS(object):
 
     @classmethod
