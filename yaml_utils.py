@@ -3,7 +3,7 @@ from urllib.parse import unquote, quote
 import tmdbsimple as tmdb
 from .setup import P
 logger = P.logger
-DEFINE_DEV = False
+DEFIㅆNE_DEV = False
 if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
     DEFINE_DEV = True
 try:
@@ -20,14 +20,14 @@ try:
     else:
         from support import SupportSC
         OTTCODE = SupportSC.load_module_P(P, 'get_code').OTTCODE
-        OTTCODE = SupportSC.load_module_P(P, 'site_wavve').WAVVE
-        OTTCODE = SupportSC.load_module_P(P, 'site_tving').TVING
-        OTTCODE = SupportSC.load_module_P(P, 'site_netflix').NF
-        OTTCODE = SupportSC.load_module_P(P, 'site_disney').DSNP
-        OTTCODE = SupportSC.load_module_P(P, 'site_coupang').COUPANG
-        OTTCODE = SupportSC.load_module_P(P, 'site_appletv').ATVP
-        OTTCODE = SupportSC.load_module_P(P, 'site_prime').AMZN
-        OTTCODE = SupportSC.load_module_P(P, 'site_ebs').EBS
+        WAVVE = SupportSC.load_module_P(P, 'site_wavve').WAVVE
+        TVING = SupportSC.load_module_P(P, 'site_tving').TVING
+        NF = SupportSC.load_module_P(P, 'site_netflix').NF
+        DSNP = SupportSC.load_module_P(P, 'site_disney').DSNP
+        COUPANG = SupportSC.load_module_P(P, 'site_coupang').COUPANG
+        ATVP = SupportSC.load_module_P(P, 'site_appletv').ATVP
+        AMZN = SupportSC.load_module_P(P, 'site_prime').AMZN
+        EBS = SupportSC.load_module_P(P, 'site_ebs').EBS
         
 except Exception as e:
     P.logger.error(f'Exception:{str(e)}')
