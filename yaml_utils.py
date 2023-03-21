@@ -115,7 +115,10 @@ class YAMLUTILS(object):
             season['summary'] = season_info['plot']
             season['art'] = season_info['art']
             for episode in season['episodes']:
-                episode['originally_available_at'] = season_info['episodes'][episode['index']]['premiered']
+                try:
+                    episode['originally_available_at'] = season_info['episodes'][episode['index']]['premiered']
+                except:
+                    episode['originally_available_at'] = ''
                 try:        
                     episode['thumbs'] = season_info['episodes'][episode['index']]['art'][0]   
                 except:
