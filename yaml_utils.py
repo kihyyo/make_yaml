@@ -78,7 +78,7 @@ class YAMLUTILS(object):
         show_data = site_dict[site].make_data(code)
         return show_data
     
-    @classmethod
+   @classmethod
     def tmdb_data(cls, tmdb_code, show_data):
         from metadata.mod_ftv import ModuleFtv
         tmdbftv = ModuleFtv('metadata')
@@ -87,6 +87,10 @@ class YAMLUTILS(object):
         show_data['primary'] = True
         show_data['title'] = data['title']
         show_data['title_sort'] = data['title']
+        for art in data['art']:
+            if art['aspect'] == 'poster':
+                show_data['posters'] = art['value']
+                break
         show_data['studio'] = data['studio']
         show_data['original_title'] = data['originaltitle']
         show_data['country'] = data['country']
@@ -111,7 +115,10 @@ class YAMLUTILS(object):
         for season in show_data['seasons']:
             season_number = season['index']
             season_info = tmdbftv.info(tmdb_code+'_'+str(season_number))
-            season['posters'] = season_info['poster']
+            for art in season_info['art']:
+                if art['aspect'] == 'poster':
+                    season['posters'] = art['value']
+                    break
             season['summary'] = season_info['plot']
             season['art'] = season_info['art']
             for episode in season['episodes']:
