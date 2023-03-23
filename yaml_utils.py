@@ -124,7 +124,7 @@ class YAMLUTILS(object):
                 except:
                     episode['thumbs'] = ''
                 try:
-                logger.debug(season_info['episodes'][episode['index']]['writer'])
+                    logger.debug(season_info['episodes'][episode['index']]['writer'])
                     episode['writers'] = str(season_info['episodes'][episode['index']]['writer'])[1:-1]
                 except:
                     episode['writers'] = ''
