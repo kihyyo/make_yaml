@@ -123,6 +123,12 @@ class YAMLUTILS(object):
                     episode['thumbs'] = season_info['episodes'][episode['index']]['art'][0]   
                 except:
                     episode['thumbs'] = ''
-                # episode['writers'] = season_info['episodes'][episode['index']]['writer']
-                # episode['directors'] = season_info['episodes'][episode['index']]['director']
+                try:
+                    episode['writers'] = season_info['episodes'][episode['index']]['writer'][0]
+                except:
+                    episode['writers'] = ''
+                try:
+                    episode['directors'] = season_info['episodes'][episode['index']]['director'][0]
+                except:
+                    episode['directors'] = ''
         return show_data
