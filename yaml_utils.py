@@ -124,11 +124,11 @@ class YAMLUTILS(object):
                 except:
                     episode['thumbs'] = ''
                 try:
-                    episode['writers'] = season_info['episodes'][episode['index']]['writer'][0]
+                    episode['writers'] = str(season_info['episodes'][episode['index']]['writer']).replace('[', '').replace(']', '').strip()
                 except:
                     episode['writers'] = ''
                 try:
-                    episode['directors'] = season_info['episodes'][episode['index']]['director'][0]
+                    episode['directors'] = str(season_info['episodes'][episode['index']]['director']).replace('[', '').replace(']', '').strip()
                 except:
                     episode['directors'] = ''
         return show_data
