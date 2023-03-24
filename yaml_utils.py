@@ -114,7 +114,8 @@ class YAMLUTILS(object):
         show_data['extras'] = data['extra_info']
         for season in show_data['seasons']:
             season_number = season['index']
-            season_info = tmdbftv.info(tmdb_code+'_'+str(season_number))['data']
+            season_info = tmdbftv.info(tmdb_code+'_'+str(season_number))
+            logger.debug(season_info)
             for art in season_info['art']:
                 if art['aspect'] == 'poster':
                     season['posters'] = art['value']
