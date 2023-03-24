@@ -120,7 +120,6 @@ class YAMLUTILS(object):
                 if art['aspect'] == 'poster':
                     season['posters'] = art['value']
             season['summary'] = season_info['plot']
-            season['art'] = season_info['art']
             for episode in season['episodes']:
                 try:
                     episode['originally_available_at'] = season_info['episodes'][episode['index']]['premiered']
