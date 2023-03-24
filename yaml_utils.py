@@ -115,7 +115,7 @@ class YAMLUTILS(object):
         for season in show_data['seasons']:
             season_number = season['index']
             season_info = tmdbftv.info(tmdb_code+'_'+str(season_number))
-            logger.debug(season_info)
+            season['title'] = season_info['season_name']
             for art in season_info['art']:
                 if art['aspect'] == 'poster':
                     season['posters'] = art['value']
@@ -129,6 +129,8 @@ class YAMLUTILS(object):
                     episode['thumbs'] = season_info['episodes'][episode['index']]['art'][0]   
                 except:
                     episode['thumbs'] = ''
+                try:
+                    episode['content_rating'] = season_info['episodes'][episode['index']]
                 try:
                     episode['writers'] = str(season_info['episodes'][episode['index']]['writer'])[1:-1].replace("'",'').strip()
                 except:
