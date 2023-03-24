@@ -102,12 +102,9 @@ class ModuleMain(PluginModuleBase):
                         for k in range(len(show_data['seasons'])):
                             i = int(show_data['seasons'][k]['index'])
                             for j in range(split_season):
-                                episode_data = copy.deepcopy(show_data['seasons'][k]['episodes'])
+                                season = copy.deepcopy(show_data['seasons'][k])
                                 season_no = int(int(j)*100 + i )                                  
-                                season = {
-                                    'index' : season_no,
-                                    'episodes' : episode_data
-                                }
+                                season['index'] = season_no
                                 season_data.append(season)
                         show_data['seasons'] = season_data
                         YAMLUTILS.make_yaml(show_data)
