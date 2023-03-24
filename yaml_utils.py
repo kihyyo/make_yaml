@@ -40,7 +40,7 @@ class YAMLUTILS(object):
             target_path = P.ModelSetting.get('manual_target')
             tmp = re.sub('[\\/:*?\"<>|]', '', show_data['title']).replace('  ', ' ').replace('[]', '').strip()
             with open(os.path.join(target_path, tmp+'.yaml'), 'w', encoding="utf-8") as outfile:
-                if P.ModelSetting.get_bool('delete_title'):
+                if not P.ModelSetting.get_bool('is_primary') and P.ModelSetting.get_bool('delete_title'):
                     del show_data['title']
                 yaml.dump(show_data, outfile, sort_keys=False, allow_unicode=True)
                 
