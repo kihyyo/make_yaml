@@ -119,6 +119,7 @@ class YAMLUTILS(object):
             for art in season_info['art']:
                 if art['aspect'] == 'poster':
                     season['posters'] = art['value']
+                    break
             season['summary'] = season_info['plot']
             for episode in season['episodes']:
                 try:
