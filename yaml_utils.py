@@ -130,8 +130,6 @@ class YAMLUTILS(object):
                 except:
                     episode['thumbs'] = ''
                 try:
-                    episode['content_rating'] = season_info['episodes'][episode['index']]
-                try:
                     episode['writers'] = str(season_info['episodes'][episode['index']]['writer'])[1:-1].replace("'",'').strip()
                 except:
                     episode['writers'] = ''
