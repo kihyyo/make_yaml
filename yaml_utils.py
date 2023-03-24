@@ -78,7 +78,7 @@ class YAMLUTILS(object):
         show_data = site_dict[site].make_data(code)
         return show_data
     
-   @classmethod
+    @classmethod
     def tmdb_data(cls, tmdb_code, show_data):
         from metadata.mod_ftv import ModuleFtv
         tmdbftv = ModuleFtv('metadata')
