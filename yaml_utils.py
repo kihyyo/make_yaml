@@ -37,6 +37,7 @@ class YAMLUTILS(object):
 
     @classmethod
     def make_yaml(cls, show_data, target_path=None):
+            logger.debug(show_data)
             target_path = P.ModelSetting.get('manual_target')
             tmp = re.sub('[\\/:*?\"<>|]', '', show_data['title']).replace('  ', ' ').replace('[]', '').strip()
             with open(os.path.join(target_path, tmp+'.yaml'), 'w', encoding="utf-8") as outfile:
