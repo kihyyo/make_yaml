@@ -1,4 +1,4 @@
-import re, difflib, requests, os, traceback, yaml
+import re, difflib, requests, os, traceback, yaml, copy
 from urllib.parse import unquote, quote
 import tmdbsimple as tmdb
 from .setup import P
