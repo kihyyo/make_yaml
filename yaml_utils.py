@@ -76,6 +76,20 @@ class YAMLUTILS(object):
         code = code[2:]
         site_dict = {'KW' : WAVVE, 'KV' : TVING, 'KC' : COUPANG, 'FN' : NF, 'FD' : DSNP, 'FA' : ATVP, 'FP' : AMZN, 'KE' : EBS}
         show_data = site_dict[site].make_data(code)
+        if P.ModelSetting.get_int('split_season') != 1:   
+            season_data = []
+            split_season = P.ModelSetting.get_int('split_season')
+            for k in range(len(show_data['seasons'])):
+                i = int(show_data['seasons'][k]['index'])
+                for j in range(split_season):
+                    episode_data = copy.deepcopy(show_data['seasons'][k]['episodes'])
+                    season_no = int(int(j)*100 + i )                                  
+                    season = {
+                        'index' : season_no,
+                        'episodes' : episode_data
+                    }
+                    season_data.append(season)
+            show_data['seasons'] = season_data
         return show_data
     
     @classmethod
