@@ -93,20 +93,6 @@ class ModuleMain(PluginModuleBase):
                     if P.ModelSetting.get_bool('is_primary'):
                         self.tmdb_code = 'FT'+str(ottcode.tmdb_search()) 
                         show_data = YAMLUTILS.tmdb_data(self.tmdb_code, show_data)
-                    # if P.ModelSetting.get_int('split_season') == 1:   
-                    #     YAMLUTILS.make_yaml(show_data)
-                    #     return jsonify({"msg":f"{site_name_dict[site]} 코드 실행", "ret":"success"})
-                    # else:
-                    #     season_data = []
-                    #     split_season = P.ModelSetting.get_int('split_season')
-                    #     for k in range(len(show_data['seasons'])):
-                    #         i = int(show_data['seasons'][k]['index'])
-                    #         for j in range(split_season):
-                    #             season = copy.deepcopy(show_data['seasons'][k])
-                    #             season_no = int(int(j)*100 + i )                                  
-                    #             season['index'] = season_no
-                    #             season_data.append(season)
-                    #     show_data['seasons'] = season_data
                     YAMLUTILS.make_yaml(show_data)
                     return jsonify({"msg":f"{site_name_dict[site]} 코드 실행", "ret":"success"})
                 else:
