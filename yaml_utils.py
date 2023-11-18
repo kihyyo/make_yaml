@@ -53,7 +53,7 @@ class YAMLUTILS(object):
                 logger.error(f"Exception:{str(e)}")
                 logger.error(traceback.format_exc())
         regex_set = {
-            'wavve' : r'wavve\.com\/player\/(vod\?contentid=|vod\?programid=.*?)(?P<code>[A-Za-z0-9]+_[A-Za-z0-9]+)', 'tving': r'tving\.(com\/contents)\/(?P<code>.*?)$', 
+            'wavve' : r'wavve\.com\/player\/(vod\?contentid=|vod\?programid=.*?)(?P<code>[^#][A-Za-z0-9]+_[A-Za-z0-9]+)', 'tving': r'tving\.(com\/contents)\/(?P<code>[^#].*?)$', 
             'coupang' : r'coupangplay\.com\/titles\/(?P<code>[^/]+)$', 'nf' :r'netflix\.com\/(kr\/title|title)\/(?P<code>[^/]+)$', 'dsnp' : r'disneyplus\.com(\/ko-kr)?\/series\/.*?\/(?P<code>[^?=&]+)',
             'atvp' : r'apple.com/.*?(?P<code>umc.cmc.[a-zA-Z0-9]+)$', 'amzn' : r'primevideo\.com/detail/(?P<code>[A-Z0-9]+)'
         }
