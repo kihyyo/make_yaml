@@ -73,10 +73,12 @@ class YAMLUTILS(object):
     @classmethod   
     def get_data(cls, code):
         try:
+            logger.debug(code)
             site = code[:2]
             code = code[2:]
             site_dict = {'KW' : WAVVE, 'KV' : TVING, 'KC' : COUPANG, 'FN' : NF, 'FD' : DSNP, 'FA' : ATVP, 'FP' : AMZN, 'KE' : EBS}
             show_data = site_dict[site].make_data(code)
+            logger.debug(show_data)
             if P.ModelSetting.get_int('split_season') != 1:   
                 season_data = []
                 split_season = P.ModelSetting.get_int('split_season')
