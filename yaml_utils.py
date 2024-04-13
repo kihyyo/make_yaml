@@ -85,7 +85,7 @@ class YAMLUTILS(object):
                     i = int(show_data['seasons'][k]['index'])
                     for j in range(split_season):
                         episode_data = copy.deepcopy(show_data['seasons'][k]['episodes'])
-                        summary = copy.deepcopy(show_data['seasons'][k]['summary'])
+                        summary = copy.deepcopy(show_data['seasons'][k].get('summary', ''))
                         season_no = int(int(j)*100 + i )                                  
                         season = {
                             'index' : season_no,
