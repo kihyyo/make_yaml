@@ -30,6 +30,7 @@ class ModuleMain(PluginModuleBase):
         f'is_primary' : 'false',
         f'match_score' : '95',
         f'extra_season' : 'True',
+        f'ep_thum' : 'false',
         f'split_season' : '1',
         f'delete_title' : 'True',
         f'manual_target' : '',
