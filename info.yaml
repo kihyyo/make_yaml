@@ -1,7 +1,7 @@
 title: "make_yaml"
 version: "1.0.0"
 package_name: "make_yaml"
-developer: "flaskfarm"
+developer: "kihyyo"
 description: "OTT 정보로 직접 yaml로 만드는 플러그인"
 home: "https://github.com/kihyyo/make_yaml"
 more: "https://raw.githubusercontent.com/kihyyo/make_yaml/main/README.md"
