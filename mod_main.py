@@ -7,7 +7,7 @@ from .yaml_utils import YAMLUTILS
 import re, os, traceback, copy
 logger = P.logger
 DEFINE_DEV = False
-if os.path.exists(os.path.join(os.path.dirname(__file__), 'mod_basic.py')):
+if os.path.exists(os.path.join(os.path.dirname(__file__), 'get_code.py')):
     DEFINE_DEV = True
 try:
     if DEFINE_DEV:
@@ -34,6 +34,8 @@ class ModuleMain(PluginModuleBase):
         f'split_season' : '1',
         f'delete_title' : 'True',
         f'manual_target' : '',
+        f'use_proxy' : 'False',
+        f'proxy_url' : '',
     }
     
     def __init__(self, P):
@@ -47,7 +49,16 @@ class ModuleMain(PluginModuleBase):
             return render_template(f"{P.package_name}_{self.name}_{sub}.html", arg=arg)
         return render_template(f"{P.package_name}_{self.name}.html", arg=arg, sub=sub)
     
-        
+    def convert_title_format(self, original_title):
+        # 정규 표현식을 사용하여 제목과 연도를 추출
+        match = re.match(r'(.*) \((\d{4})\)', original_title)
+        if match:
+            title = match.group(1)
+            year = match.group(2)
+            return f"{title}|{year}"
+        else:
+            return None
+    
     def process_command(self, command, arg1, arg2, arg3, req):
         self.code = ''
         arg1 = arg1.strip()
@@ -65,6 +76,37 @@ class ModuleMain(PluginModuleBase):
                 self.code = YAMLUTILS.code_sort(user_order, ottcode_list)
             else:
                 return jsonify({"msg":"검색어 실패", "ret":"fail"})
+        elif command == 'auto_target':
+            source = arg1
+            source_list = os.listdir(source)
+            for f in source_list:
+                #if f in ['가', '나', '다', '라','마','바']:
+                    char = os.path.join(source, f)
+                    if os.path.isdir(char):
+                        char_list = os.listdir(char)
+                        for t in char_list:
+                            
+                            try:
+                                target = os.path.join(char,t)
+                                if os.path.isdir(target) and not os.path.isfile(os.path.join(target, "show.yaml")):
+                                    folder = os.path.basename(target)
+                                    keyword = self.convert_title_format(folder)
+                                    keyword = keyword.split('|')
+                                    if keyword:
+                                        ottcode = OTTCODE(keyword[0].strip(), keyword[1].strip())
+                                        ottcode_list = ottcode.get_ott_code()
+                                        user_order = P.ModelSetting.get_list('ftv_first_order', ',')
+                                        self.code = YAMLUTILS.code_sort(user_order, ottcode_list)
+                                        if self.code:
+                                            show_data = YAMLUTILS.get_data(self.code)
+                                            if SiteUtil.is_include_hangul(show_data['seasons'][-1]['episodes'][-1]['title']) or SiteUtil.is_include_hangul(show_data['seasons'][-1]['episodes'][-1]['summary']) :
+                                                YAMLUTILS.make_yaml(show_data, target)
+                                        else:
+                                            continue
+                            except:
+                                print("오류발생:", target)
+                                continue
+
         elif command == 'wavve_code':
             self.code = 'KW'+arg1
         elif command == 'tving_code':
