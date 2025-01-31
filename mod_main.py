@@ -4,7 +4,8 @@ from tool import ToolUtil
 from .setup import P
 from support_site import SiteUtil
 from .yaml_utils import YAMLUTILS
-import re, os, traceback, copy
+import re, os, traceback
+import requests
 logger = P.logger
 DEFINE_DEV = False
 if os.path.exists(os.path.join(os.path.dirname(__file__), 'get_code.py')):
