@@ -58,7 +58,21 @@ class ModuleMain(PluginModuleBase):
             return f"{title}|{year}"
         else:
             return None
-    
+            
+    def disney_redirect(self, code):
+        headers = {
+            "sec-ch-ua-platform": "\"Windows\"",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+            "Content-Type": "text/plain;charset=UTF-8",
+            "Origin": "https://www.disneyplus.com",
+            "Referer": "https://www.disneyplus.com/",
+        }
+        url = 'https://www.disneyplus.com/ko-kr/browse/entity-' + code
+        response = requests.get(url, headers=headers, allow_redirects=True)
+        code = re.search(r'disneyplus\.com(\/ko-kr)?\/series\/.*?\/(?P<code>[^?=&]+)', response.url).group('code')
+        return code
+        
     def process_command(self, command, arg1, arg2, arg3, req):
         self.code = ''
         arg1 = arg1.strip()
@@ -116,6 +130,8 @@ class ModuleMain(PluginModuleBase):
         elif command == 'nf_code':
             self.code = 'FN'+arg1
         elif command == 'dsnp_code':
+            if len(arg1) > 20 and '-' in arg1:
+                arg1 = self.disney_redirect(arg1)
             self.code = 'FD'+arg1
         elif command == 'amzn_code':
             self.code = 'FP'+arg1
