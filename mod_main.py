@@ -37,6 +37,7 @@ class ModuleMain(PluginModuleBase):
         f'manual_target' : '',
         f'use_proxy' : 'False',
         f'proxy_url' : '',
+        f'chrome_url': '',
     }
     
     def __init__(self, P):
