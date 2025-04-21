@@ -14,10 +14,11 @@
     {{ macros.setting_input_int('split_season', '재생 버전별로 분리할 시즌 갯수', value=arg['split_season'], desc='시즌 1 포함하여 시즌 101, 시즌 201 등을 만들 갯수이다.') }}
     {{ macros.setting_checkbox('delete_title', '시리즈 제목 삭제', value=arg['delete_title'], desc='제목은 TMDB 걸로 유지하기 위함이다.') }}
     {{ macros.setting_input_text('manual_target', 'yaml 생성 경로', value=arg['manual_target']) }}
-    {{ macros.setting_checkbox('use_proxy', 'Proxy 사용', value=arg['use_proxy'], desc='넷플릭스만 해당') }}
+    {{ macros.setting_checkbox('use_proxy', 'Proxy 사용', value=arg['use_proxy'], desc=None) }}
     <div id="use_proxy_div" class="collapse">
       {{ macros.setting_input_text('proxy_url', 'Proxy URL', value=arg['proxy_url'], desc=None) }}
     </div>
+    {{ macros.setting_input_text('chrome_url', 'Chrome_url', value=arg['chrome_url'], desc='원격 크롬드라이버 주소. /wd/hub 로 끝나야함') }}
   </form>
     {{ macros.m_hr() }}  
 </div> <!--전체-->
@@ -38,4 +39,3 @@ $('#use_proxy').change(function() {
 
 </script>    
 {% endblock %}
-
